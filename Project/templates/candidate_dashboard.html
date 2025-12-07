@@ -27,3 +27,35 @@
 <div class="space-y-8 pb-12">
     </div>
 {% endblock %}
+
+<div class="relative bg-gradient-to-r from-slate-900 to-violet-900 rounded-3xl p-8 shadow-xl overflow-hidden animate-fade-in text-white">
+        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-fuchsia-500 opacity-10 rounded-full blur-2xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="bg-white/10 backdrop-blur-md p-2 rounded-lg text-violet-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </div>
+                    <span class="text-violet-100 font-medium tracking-wide uppercase text-sm">Candidate Portal</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white">
+                    Job Overview
+                </h1>
+                <p class="text-slate-300 mt-2 max-w-xl">
+                    Welcome back, {{ user.first_name }}. Track your applications, manage interviews, and find your next opportunity.
+                </p>
+            </div>
+            
+            <div class="flex gap-3">
+                <a href="#" class="px-5 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all shadow-lg cursor-not-allowed opacity-70" title="Coming Soon">
+                    Edit Profile
+                </a>
+                <a href="#" class="px-5 py-3 bg-violet-500 text-white font-bold rounded-xl hover:bg-violet-400 shadow-lg hover:shadow-violet-500/20 transition-all transform hover:-translate-y-0.5 flex items-center cursor-not-allowed opacity-80" title="Coming Soon">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Browse Jobs
+                </a>
+            </div>
+        </div>
+    </div>
