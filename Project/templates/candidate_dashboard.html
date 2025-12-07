@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Candidate Portal - HireMe{% endblock %}
+
+{% block content %}
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fadeInUp 0.6s ease-out forwards; }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+</style>
+
+{% set completed_points = 0 %}
+{% if profile.experience_years > 0 %}{% set completed_points = completed_points + 1 %}{% endif %}
+{% if profile.education_level %}{% set completed_points = completed_points + 1 %}{% endif %}
+{% if profile.current_position %}{% set completed_points = completed_points + 1 %}{% endif %}
+{% if profile.location %}{% set completed_points = completed_points + 1 %}{% endif %}
+{% if profile.cv_filename %}{% set completed_points = completed_points + 1 %}{% endif %}
+{% if profile.summary %}{% set completed_points = completed_points + 1 %}{% endif %}
+{% set total_points = 6 %}
+{% set completion_percent = (completed_points / total_points * 100) | int %}
+
+<div class="space-y-8 pb-12">
+    </div>
+{% endblock %}
