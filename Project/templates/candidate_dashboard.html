@@ -27,39 +27,3 @@
 <div class="space-y-8 pb-12">
     </div>
 {% endblock %}
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-violet-100/50 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in delay-100"
-             x-data="{ current: 0, target: {{ total_applications }} }"
-             x-init="setTimeout(() => { const step = 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 300); }, 300)">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Applications</p>
-                    <h3 class="text-4xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
-                </div>
-                <div class="p-3 bg-violet-50 text-violet-600 rounded-2xl group-hover:bg-violet-600 group-hover:text-white transition-colors duration-300 shadow-sm">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                </div>
-            </div>
-            <div class="mt-4 flex items-center text-sm font-medium text-emerald-600 bg-emerald-50 w-fit px-2 py-1 rounded-lg">
-                <span>Active</span>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-fuchsia-100/50 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in delay-100"
-             x-data="{ current: 0, target: {{ upcoming_interviews|length }} }"
-             x-init="setTimeout(() => { const step = 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 300); }, 300)">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Interviews</p>
-                    <h3 class="text-4xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
-                </div>
-                <div class="p-3 bg-fuchsia-50 text-fuchsia-600 rounded-2xl group-hover:bg-fuchsia-600 group-hover:text-white transition-colors duration-300 shadow-sm">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                </div>
-            </div>
-            <div class="mt-4 flex items-center text-sm font-medium text-fuchsia-600 bg-fuchsia-50 w-fit px-2 py-1 rounded-lg">
-                <span>Upcoming</span>
-            </div>
-        </div>
