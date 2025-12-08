@@ -157,4 +157,39 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
+                            {% for app, job, company in applications %}
+                            <tr class="group hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center text-violet-600 font-bold text-sm shadow-inner mr-4">
+                                            {{ company.company_name[:2].upper() }}
+                                        </div>
+                                        <div class="text-sm font-bold text-gray-900">{{ company.company_name }}</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ job.title }}</div>
+                                    <div class="text-xs text-gray-500">{{ job.job_type }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ app.applied_at.strftime('%b %d') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if app.application_status == 'applied' %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200">Applied</span>
+                                    {% elif app.application_status == 'shortlisted' %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-violet-100 text-violet-800 border border-violet-200">Shortlisted</span>
+                                    {% elif app.application_status == 'rejected' %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-gray-100 text-gray-600 border border-gray-200">Rejected</span>
+                                    {% else %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-fuchsia-100 text-fuchsia-800 border border-fuchsia-200">{{ app.application_status|replace('_', ' ')|title }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-gray-400 hover:text-violet-600 transition-colors p-2 rounded-lg hover:bg-violet-50 inline-block cursor-not-allowed">
+                                        Details
+                                    </a>
+                                </td>
+                            </tr>
+
 
