@@ -111,6 +111,24 @@
             </div>
         </div>
 
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-amber-100/50 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in delay-200">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Needs Review</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 mt-2">{{ analytics.status_counts.applied if analytics and analytics.status_counts else 0 }}</h3>
+                </div>
+                <div class="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-amber-700 bg-amber-50 w-fit px-2 py-1 rounded-lg font-medium">
+                Requires Attention
+            </div>
+        </div>
+    </div>
+
+
+
 
 
 
