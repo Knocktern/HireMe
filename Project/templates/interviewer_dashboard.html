@@ -186,6 +186,32 @@
                     <div class="p-4 border-t border-gray-100 bg-gray-50/50 text-center">
                         <button class="text-xs font-bold text-sky-600 hover:text-sky-800 uppercase tracking-wide">View All History</button>
                     </div>
+                                {% else %}
+                    <div class="p-8 text-center">
+                        <p class="text-sm text-gray-500 italic">No completed interviews yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-2xl p-6 border border-sky-100">
+                <div class="flex items-start gap-3">
+                    <div class="p-2 bg-white rounded-lg shadow-sm text-sky-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">Interviewer Tip</h4>
+                        <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                            Remember to join the room 5 minutes early to test your audio and video settings before the candidate arrives.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
 
 
 
