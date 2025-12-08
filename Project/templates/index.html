@@ -282,6 +282,53 @@
                     </div>
 
 
+                    <!-- Headline with Typewriter Effect -->
+                    <div class="mb-8" 
+                         x-data="{
+                             words: ['Job Matching', 'Career Growth', 'Talent Hub', 'Dream Job'],
+                             currentWordIndex: 0,
+                             currentText: '',
+                             isDeleting: false,
+                             typingSpeed: 100,
+                             deletingSpeed: 50,
+                             pauseTime: 2000,
+                             init() {
+                                 this.type();
+                             },
+                             type() {
+                                 const currentWord = this.words[this.currentWordIndex];
+                                 
+                                 if (this.isDeleting) {
+                                     this.currentText = currentWord.substring(0, this.currentText.length - 1);
+                                 } else {
+                                     this.currentText = currentWord.substring(0, this.currentText.length + 1);
+                                 }
+                                 
+                                 let speed = this.isDeleting ? this.deletingSpeed : this.typingSpeed;
+                                 
+                                 if (!this.isDeleting && this.currentText === currentWord) {
+                                     speed = this.pauseTime;
+                                     this.isDeleting = true;
+                                 } else if (this.isDeleting && this.currentText === '') {
+                                     this.isDeleting = false;
+                                     this.currentWordIndex = (this.currentWordIndex + 1) % this.words.length;
+                                     speed = 500;
+                                 }
+                                 
+                                 setTimeout(() => this.type(), speed);
+                             }
+                         }">
+                        <h1 class="text-5xl lg:text-7xl font-bold text-gray-900 leading-tight mb-4">
+                            Your all-in-one <br/>
+                            <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                                <span x-text="currentText"></span><span class="typewriter-cursor"></span>
+                            </span>
+                            <br/> Platform
+                        </h1>
+                    </div>
+
+
+
 
 
 
