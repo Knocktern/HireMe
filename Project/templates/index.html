@@ -85,3 +85,70 @@
             margin-left: 2px;
             animation: blink 1s step-end infinite;
         }
+
+        
+        /* Swirl background animation - INDIGO→PURPLE→PINK */
+        @keyframes swirl {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.4;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.3;
+            }
+        }
+
+        .swirl-bg {
+            animation: swirl 25s linear infinite;
+        }
+
+        /* Fade up on scroll */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        /* Hover effects - INDIGO COLOR */
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: perspective(1000px) rotateY(3deg) scale(1.02);
+        }
+
+        /* Soft shadows */
+        .soft-shadow {
+            box-shadow: 0 10px 40px rgba(148, 163, 184, 0.15);
+        }
+
+        .soft-shadow-lg {
+            box-shadow: 0 25px 60px rgba(148, 163, 184, 0.25);
+        }
+
+
+    
