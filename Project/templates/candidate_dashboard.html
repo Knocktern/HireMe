@@ -222,6 +222,33 @@
                     <div class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-2.5 rounded-full transition-all duration-1000" style="width: {{ completion_percent }}%"></div>
                 </div>
 
+                <ul class="space-y-3 text-sm relative z-10">
+                    <li class="flex items-center text-gray-600">
+                        {% if profile.cv_filename %}
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        {% else %}
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3"></div>
+                        {% endif %}
+                        CV Uploaded
+                    </li>
+                    <li class="flex items-center text-gray-600">
+                        {% if profile.experience_years > 0 %}
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        {% else %}
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3"></div>
+                        {% endif %}
+                        Experience Added
+                    </li>
+                </ul>
+                
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <a href="#" class="block w-full py-2 text-center text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-lg transition-colors shadow-lg shadow-violet-200 cursor-not-allowed opacity-80">
+                        Complete Profile
+                    </a>
+                </div>
+            </div>
+
+
 
 
 
