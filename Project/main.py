@@ -312,3 +312,105 @@ def candidate_dashboard():
                          recommendations=recommendations,
                          exam_invitations=exam_invitations)
 
+
+
+# ===== EMPLOYER ROUTES =====
+
+@app.route('/employer/dashboard')
+def employer_dashboard():
+    """Employer dashboard"""
+    if 'user_id' not in session or session['user_type'] != 'employer':
+        return redirect(url_for('login'))
+    
+    user = User.query.get(session['user_id'])
+    company = user.company
+    
+    if not company:
+        flash('Please complete your company profile first', 'error')
+        return redirect(url_for('index'))
+    
+    # Get job postings
+    job_postings = list(db.session.query(JobPosting).filter_by(company_id=company.id).all())
+    active_jobs = sum(1 for job in job_postings if job.is_active)
+    
+    # Get applications
+    applications = list(db.session.query(JobApplication, JobPosting, CandidateProfile, User).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).join(
+        CandidateProfile, JobApplication.candidate_id == CandidateProfile.id
+    ).join(
+        User, CandidateProfile.user_id == User.id
+    ).filter(
+        JobPosting.company_id == company.id
+    ).order_by(JobApplication.applied_at.desc()).all())
+    
+    total_applications = len(applications)
+    
+    # Mock analytics
+    analytics = {
+        'total_applications': total_applications,
+        'status_counts': {
+            'applied': sum(1 for app, _, _, _ in applications if app.application_status == 'applied'),
+            'under_review': sum(1 for app, _, _, _ in applications if app.application_status == 'under_review'),
+            'shortlisted': sum(1 for app, _, _, _ in applications if app.application_status == 'shortlisted'),
+            'rejected': sum(1 for app, _, _, _ in applications if app.application_status == 'rejected'),
+        },
+        'top_jobs': [(job.title, len([a for a, j, _, _ in applications if j.id == job.id])) for job in job_postings[:5]]
+    }
+    
+    return render_template('employer_dashboard.html',
+                         user=user,
+                         company=company,
+                         job_postings=[(job, sum(1 for a, j, _, _ in applications if j.id == job.id)) for job in job_postings],
+                         applications=applications,
+                         active_jobs=active_jobs,
+                         total_applications=total_applications,
+                         analytics=analytics)
+    
+    
+    
+
+# ===== INTERVIEWER ROUTES =====
+
+@app.route('/interviewer/dashboard')
+def interviewer_dashboard():
+    """Interviewer dashboard"""
+    if 'user_id' not in session or session['user_type'] != 'interviewer':
+        return redirect(url_for('login'))
+    
+    user = User.query.get(session['user_id'])
+    
+    # Get upcoming interviews for this interviewer
+    upcoming_interviews = list(db.session.query(InterviewRoom, JobApplication, JobPosting, Company).join(
+        JobApplication, InterviewRoom.job_application_id == JobApplication.id
+    ).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).join(
+        Company, JobPosting.company_id == Company.id
+    ).join(
+        InterviewParticipant, InterviewRoom.id == InterviewParticipant.room_id
+    ).filter(
+        InterviewParticipant.user_id == session['user_id'],
+        InterviewRoom.status.in_(['scheduled', 'active']),
+        InterviewRoom.scheduled_time >= datetime.utcnow()
+    ).order_by(InterviewRoom.scheduled_time.asc()).all())
+    
+    # Get completed interviews
+    completed_interviews = list(db.session.query(InterviewRoom, JobApplication, JobPosting, Company).join(
+        JobApplication, InterviewRoom.job_application_id == JobApplication.id
+    ).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).join(
+        Company, JobPosting.company_id == Company.id
+    ).join(
+        InterviewParticipant, InterviewRoom.id == InterviewParticipant.room_id
+    ).filter(
+        InterviewParticipant.user_id == session['user_id'],
+        InterviewRoom.status == 'completed'
+    ).order_by(InterviewRoom.ended_at.desc()).limit(10).all())
+    
+    return render_template('interviewer_dashboard.html',
+                         user=user,
+                         upcoming_interviews=upcoming_interviews,
+                         completed_interviews=completed_interviews,
+                         now=datetime.utcnow())
