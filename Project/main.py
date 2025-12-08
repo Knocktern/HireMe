@@ -241,3 +241,11 @@ def login():
             flash('Invalid email or password', 'error')
     
     return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    """Logout user"""
+    session.clear()
+    flash('You have been logged out successfully', 'info')
+    return redirect(url_for('index'))
