@@ -87,5 +87,17 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in delay-200">
+        
+        <div class="lg:col-span-2 space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-900">Upcoming Interviews</h2>
+                <span class="px-3 py-1 bg-sky-50 text-sky-700 rounded-full text-xs font-bold">{{ upcoming_count }} Scheduled</span>
+            </div>
+
+            {% if upcoming_interviews %}
+                <div class="space-y-4">
+
+
 
 
