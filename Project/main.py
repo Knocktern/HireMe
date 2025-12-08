@@ -130,3 +130,114 @@ class InterviewFeedback(db.Model):
     interviewer = db.relationship('User', foreign_keys=[interviewer_id])
     candidate = db.relationship('User', foreign_keys=[candidate_id])
 
+
+# ===== ROUTES =====
+
+@app.route('/')
+def index():
+    """Landing page"""
+    if 'user_id' in session:
+        user_type = session.get('user_type')
+        if user_type == 'candidate':
+            return redirect(url_for('candidate_dashboard'))
+        elif user_type == 'employer':
+            return redirect(url_for('employer_dashboard'))
+        elif user_type == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        elif user_type == 'manager':
+            return redirect(url_for('manager_dashboard'))
+        elif user_type == 'interviewer':
+            return redirect(url_for('interviewer_dashboard'))
+    
+    return render_template('index.html')
+
+
+
+#Sign up feature
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    """Registration page"""
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user_type = request.form['user_type']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        phone = request.form.get('phone', '')
+        
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Email already registered', 'error')
+            return redirect(url_for('register'))
+        
+        try:
+            password_hash = generate_password_hash(password)
+            new_user = User(
+                email=email,
+                password_hash=password_hash,
+                user_type=user_type,
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone
+            )
+            db.session.add(new_user)
+            db.session.flush()
+            
+            if user_type == 'candidate':
+                candidate_profile = CandidateProfile(user_id=new_user.id)
+                db.session.add(candidate_profile)
+            elif user_type == 'employer':
+                company_name = request.form.get('company_name', '')
+                company = Company(user_id=new_user.id, company_name=company_name)
+                db.session.add(company)
+            elif user_type == 'manager':
+                # Manager specific setup if needed in future
+                pass
+            elif user_type == 'interviewer':
+                # Interviewer specific setup if needed in future
+                pass
+            
+            db.session.commit()
+            
+            flash('Registration successful! Please login.', 'success')
+            return redirect(url_for('login'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Registration failed: {str(e)}', 'error')
+    
+    return render_template('register.html')
+
+
+#login feature
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login page"""
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        user = User.query.filter_by(email=email, is_active=True).first()
+        
+        if user and check_password_hash(user.password_hash, password):
+            user.last_login = datetime.utcnow()
+            db.session.commit()
+            
+            session['user_id'] = user.id
+            session['user_type'] = user.user_type
+            session['user_name'] = f"{user.first_name} {user.last_name}"
+            
+            if user.user_type == 'candidate':
+                return redirect(url_for('candidate_dashboard'))
+            elif user.user_type == 'employer':
+                return redirect(url_for('employer_dashboard'))
+            elif user.user_type == 'admin':
+                return redirect(url_for('admin_dashboard'))
+            elif user.user_type == 'manager':
+                return redirect(url_for('manager_dashboard'))
+            elif user.user_type == 'interviewer':
+                return redirect(url_for('interviewer_dashboard'))
+        else:
+            flash('Invalid email or password', 'error')
+    
+    return render_template('login.html')
