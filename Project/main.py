@@ -249,3 +249,66 @@ def logout():
     session.clear()
     flash('You have been logged out successfully', 'info')
     return redirect(url_for('index'))
+
+
+# ===== CANDIDATE ROUTES =====
+
+@app.route('/candidate/dashboard')
+def candidate_dashboard():
+    """Candidate dashboard"""
+    if 'user_id' not in session or session['user_type'] != 'candidate':
+        return redirect(url_for('login'))
+    
+    user = User.query.get(session['user_id'])
+    profile = user.candidate_profile
+    
+    if not profile:
+        flash('Please complete your profile first', 'error')
+        return redirect(url_for('index'))
+    
+    # Get recent applications
+    applications = list(db.session.query(JobApplication, JobPosting, Company).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).join(
+        Company, JobPosting.company_id == Company.id
+    ).filter(
+        JobApplication.candidate_id == profile.id
+    ).order_by(JobApplication.applied_at.desc()).all())
+    
+    # Get upcoming interviews
+    upcoming_interviews = list(db.session.query(InterviewRoom, JobApplication, JobPosting, Company).join(
+        JobApplication, InterviewRoom.job_application_id == JobApplication.id
+    ).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).join(
+        Company, JobPosting.company_id == Company.id
+    ).filter(
+        JobApplication.candidate_id == profile.id,
+        InterviewRoom.status.in_(['scheduled', 'active']),
+        InterviewRoom.scheduled_time >= datetime.utcnow()
+    ).order_by(InterviewRoom.scheduled_time.asc()).all())
+    
+    # Calculate stats
+    total_applications = len(applications)
+    pending_count = sum(1 for app, _, _ in applications if app.application_status == 'applied')
+    shortlisted_count = sum(1 for app, _, _ in applications if app.application_status == 'shortlisted')
+    avg_match_score = 75  # Placeholder
+    
+    # Mock recommendations
+    recommendations = []
+    
+    # Mock exams
+    exam_invitations = []
+    
+    return render_template('candidate_dashboard.html',
+                         user=user,
+                         profile=profile,
+                         applications=applications,
+                         upcoming_interviews=upcoming_interviews,
+                         total_applications=total_applications,
+                         pending_count=pending_count,
+                         shortlisted_count=shortlisted_count,
+                         avg_match_score=avg_match_score,
+                         recommendations=recommendations,
+                         exam_invitations=exam_invitations)
+
