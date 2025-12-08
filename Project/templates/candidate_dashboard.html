@@ -208,5 +208,20 @@
             </div>
         </div>
 
+        <div class="space-y-8">
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-violet-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4 relative z-10">Profile Strength</h3>
+                
+                <div class="flex items-center justify-between mb-2 relative z-10">
+                    <span class="text-sm font-medium text-gray-500">Completion</span>
+                    <span class="text-sm font-bold text-violet-600">{{ completion_percent }}%</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2.5 mb-6 relative z-10 overflow-hidden">
+                    <div class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-2.5 rounded-full transition-all duration-1000" style="width: {{ completion_percent }}%"></div>
+                </div>
+
+
 
 
