@@ -131,3 +131,160 @@
             </div>
         </div>
     </div>
+
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in delay-300">
+        
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <div class="flex items-center gap-2">
+                        <div class="w-1 h-6 bg-violet-600 rounded-full"></div>
+                        <h2 class="text-lg font-bold text-gray-900">Recent Applications</h2>
+                    </div>
+                    <a href="#" class="text-sm font-semibold text-violet-600 hover:text-violet-800 transition-colors cursor-not-allowed">View All</a>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 text-gray-500 text-xs font-bold uppercase tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4 text-left">Company</th>
+                                <th class="px-6 py-4 text-left">Role</th>
+                                <th class="px-6 py-4 text-left">Applied</th>
+                                <th class="px-6 py-4 text-left">Status</th>
+                                <th class="px-6 py-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            {% for app, job, company in applications %}
+                            <tr class="group hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center text-violet-600 font-bold text-sm shadow-inner mr-4">
+                                            {{ company.company_name[:2].upper() }}
+                                        </div>
+                                        <div class="text-sm font-bold text-gray-900">{{ company.company_name }}</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ job.title }}</div>
+                                    <div class="text-xs text-gray-500">{{ job.job_type }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ app.applied_at.strftime('%b %d') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if app.application_status == 'applied' %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200">Applied</span>
+                                    {% elif app.application_status == 'shortlisted' %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-violet-100 text-violet-800 border border-violet-200">Shortlisted</span>
+                                    {% elif app.application_status == 'rejected' %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-gray-100 text-gray-600 border border-gray-200">Rejected</span>
+                                    {% else %}
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-fuchsia-100 text-fuchsia-800 border border-fuchsia-200">{{ app.application_status|replace('_', ' ')|title }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-gray-400 hover:text-violet-600 transition-colors p-2 rounded-lg hover:bg-violet-50 inline-block cursor-not-allowed">
+                                        Details
+                                    </a>
+                                </td>
+                            </tr>
+                                                        {% else %}
+                            <tr>
+                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                                    <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    </div>
+                                    <p class="font-medium">No applications sent yet.</p>
+                                    <p class="text-sm text-gray-400 mt-1">Start by browsing jobs.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-8">
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-violet-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4 relative z-10">Profile Strength</h3>
+                
+                <div class="flex items-center justify-between mb-2 relative z-10">
+                    <span class="text-sm font-medium text-gray-500">Completion</span>
+                    <span class="text-sm font-bold text-violet-600">{{ completion_percent }}%</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2.5 mb-6 relative z-10 overflow-hidden">
+                    <div class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-2.5 rounded-full transition-all duration-1000" style="width: {{ completion_percent }}%"></div>
+                </div>
+
+                <ul class="space-y-3 text-sm relative z-10">
+                    <li class="flex items-center text-gray-600">
+                        {% if profile.cv_filename %}
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        {% else %}
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3"></div>
+                        {% endif %}
+                        CV Uploaded
+                    </li>
+                    <li class="flex items-center text-gray-600">
+                        {% if profile.experience_years > 0 %}
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        {% else %}
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3"></div>
+                        {% endif %}
+                        Experience Added
+                    </li>
+                </ul>
+                
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <a href="#" class="block w-full py-2 text-center text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-lg transition-colors shadow-lg shadow-violet-200 cursor-not-allowed opacity-80">
+                        Complete Profile
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                    <h3 class="text-lg font-bold text-gray-900">Upcoming Interviews</h3>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    {% for room, app, job, company in upcoming_interviews[:3] %}
+                    <div class="p-4 hover:bg-gray-50 transition-colors flex gap-3 group cursor-pointer">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-fuchsia-50 text-fuchsia-600 border border-fuchsia-100">
+                                <span class="text-xs font-bold">{{ room.scheduled_time.strftime('%d') }}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-gray-900 group-hover:text-violet-600 transition-colors">{{ job.title }}</p>
+                            <p class="text-xs text-gray-500 mt-0.5">{{ company.company_name }}</p>
+                            <p class="text-xs text-violet-500 font-medium mt-1">{{ room.scheduled_time.strftime('%b %d, %H:%M') }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="p-8 text-center text-sm text-gray-500">
+                        <div class="mx-auto w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        No interviews scheduled.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
