@@ -151,4 +151,44 @@
         }
 
 
+        /* Scroll reveal */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Logo strip */
+        .logo-strip img, .logo-strip div {
+            filter: grayscale(100%);
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .logo-strip img:hover, .logo-strip div:hover {
+            filter: grayscale(0%);
+            opacity: 0.8;
+        }
+
+        /* Navigation scrolled state */
+        .nav-scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Navigation fade transition */
+        .nav-fade {
+            transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+        }
+    </style>
+</head>
+
+
+    
+
+
     
