@@ -14,3 +14,74 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Premium gradient background - INDIGO→PURPLE→PINK */
+        .hero-gradient {
+            background: linear-gradient(135deg, #dbeafe 0%, #e9d5ff 50%, #fce7f3 100%);
+        }
+
+        /* Glassmorphism cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Floating animation for metric cards */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            33% {
+                transform: translateY(-20px) translateX(12px);
+            }
+            66% {
+                transform: translateY(-10px) translateX(-10px);
+            }
+        }
+
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .float-delay-1 {
+            animation-delay: 0.5s;
+        }
+
+        .float-delay-2 {
+            animation-delay: 1s;
+        }
+
+        .float-delay-3 {
+            animation-delay: 1.5s;
+        }
+
+        .float-delay-4 {
+            animation-delay: 2s;
+        }
+
+        /* TYPEWRITER CURSOR ANIMATION - INDIGO→PURPLE */
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            51%, 100% {
+                opacity: 0;
+            }
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
