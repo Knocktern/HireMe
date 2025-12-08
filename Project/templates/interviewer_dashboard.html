@@ -17,3 +17,36 @@
 {% set completed_count = completed_interviews|length %}
 
 <div class="space-y-8 pb-12">
+        
+    <div class="relative bg-gradient-to-r from-sky-800 to-cyan-700 rounded-3xl p-8 shadow-xl overflow-hidden animate-fade-in text-white">
+        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-cyan-400 opacity-10 rounded-full blur-2xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="bg-white/10 backdrop-blur-md p-2 rounded-lg text-cyan-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <span class="text-cyan-100 font-medium tracking-wide uppercase text-sm">Interviewer Access</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white">
+                    Interview Schedule
+                </h1>
+                <p class="text-sky-200 mt-2 max-w-xl">
+                    Welcome back, {{ user.first_name }}. Review your upcoming sessions and candidate profiles below.
+                </p>
+            </div>
+            
+            <div class="flex gap-3">
+                <div class="px-5 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium rounded-xl flex items-center gap-2">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                    </span>
+                    System Online
+                </div>
+            </div>
+        </div>
+    </div>
+
