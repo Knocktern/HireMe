@@ -266,6 +266,22 @@
                             <p class="text-xs text-violet-500 font-medium mt-1">{{ room.scheduled_time.strftime('%b %d, %H:%M') }}</p>
                         </div>
                     </div>
+                    {% else %}
+                    <div class="p-8 text-center text-sm text-gray-500">
+                        <div class="mx-auto w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        No interviews scheduled.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 
 
 
