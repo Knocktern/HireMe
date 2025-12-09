@@ -114,4 +114,24 @@
         </div>
 
 
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-amber-100/50 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in delay-200"
+             x-data="{ current: 0, target: {{ stats.total_skills }} }"
+             x-init="setTimeout(() => { const step = Math.ceil(target / 20) || 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 30); }, 300);">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Skill Database</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
+                </div>
+                <div class="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-gray-500">
+                Registered skills in system
+            </div>
+        </div>
+    </div>
+
+
+
 
