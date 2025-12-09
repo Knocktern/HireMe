@@ -48,3 +48,25 @@
         </div>
     </div>
 
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all duration-300 group animate-fade-in delay-100"
+             x-data="{ current: 0, target: {{ stats.total_interviews }} }"
+             x-init="setTimeout(() => { const step = 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 50); }, 300);">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Sessions</p>
+                    <h3 class="text-3xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
+                </div>
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+            </div>
+            <div class="mt-4 text-sm font-medium text-gray-500">
+                Lifetime interviews
+            </div>
+        </div>
+
+
+
