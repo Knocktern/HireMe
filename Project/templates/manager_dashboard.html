@@ -232,6 +232,26 @@
                         </a>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <div class="text-center py-8 text-gray-400 text-sm">
+                        <div class="mx-auto w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center mb-2">
+                            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        No pending applications to schedule.
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                    <a href="#" class="text-xs font-bold text-gray-400 hover:text-indigo-600 uppercase tracking-wide transition-colors">View All Applications</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 
 
 
