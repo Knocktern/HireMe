@@ -69,4 +69,23 @@
         </div>
 
 
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 group animate-fade-in delay-100"
+             x-data="{ current: 0, target: {{ stats.scheduled_interviews }} }"
+             x-init="setTimeout(() => { const step = 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 50); }, 300);">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Scheduled</p>
+                    <h3 class="text-3xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
+                </div>
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-4 text-sm font-medium text-blue-600">
+                Upcoming sessions
+            </div>
+        </div>
+
+
+
 
