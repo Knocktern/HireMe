@@ -106,6 +106,26 @@
         </div>
 
 
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-purple-200 transition-all duration-300 group animate-fade-in delay-200"
+             x-data="{ current: 0, target: {{ stats.total_interviewers }} }"
+             x-init="setTimeout(() => { const step = 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 50); }, 300);">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Staff</p>
+                    <h3 class="text-3xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
+                </div>
+                <div class="p-3 bg-purple-50 text-purple-600 rounded-2xl group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-4 text-sm font-medium text-gray-500">
+                Active Interviewers
+            </div>
+        </div>
+    </div>
+
+
+
 
 
 
