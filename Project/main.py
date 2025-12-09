@@ -430,8 +430,55 @@ def interviewer_dashboard():
                          completed_interviews=completed_interviews,
                          now=datetime.utcnow())
 
+# ===== MANAGER ROUTES =====
+
+@app.route('/manager/dashboard')
+def manager_dashboard():
+    """Manager dashboard"""
+    if 'user_id' not in session or session['user_type'] not in ['admin', 'manager']:
+        return redirect(url_for('login'))
+    
+    # Get all interviews
+    interviews = list(InterviewRoom.query.all())
+    
+    stats = {
+        'total_interviews': len(interviews),
+        'scheduled_interviews': sum(1 for room in interviews if room.status == 'scheduled'),
+        'active_interviews': sum(1 for room in interviews if room.status == 'active'),
+        'completed_interviews': sum(1 for room in interviews if room.status == 'completed'),
+        'total_interviewers': User.query.filter_by(user_type='interviewer').count()
+    }
+    
+    # Recent interviews
+    recent_interviews = list(db.session.query(InterviewRoom, JobApplication, JobPosting).join(
+        JobApplication, InterviewRoom.job_application_id == JobApplication.id
+    ).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).order_by(InterviewRoom.created_at.desc()).limit(10).all())
+    
+    # Pending applications
+    pending_applications = list(db.session.query(
+        JobApplication, JobPosting, Company, CandidateProfile, User
+    ).join(
+        JobPosting, JobApplication.job_id == JobPosting.id
+    ).join(
+        Company, JobPosting.company_id == Company.id
+    ).join(
+        CandidateProfile, JobApplication.candidate_id == CandidateProfile.id
+    ).join(
+        User, CandidateProfile.user_id == User.id
+    ).filter(
+        JobApplication.application_status.in_(['shortlisted', 'under_review'])
+    ).order_by(JobApplication.applied_at.desc()).limit(10).all())
+    
+    return render_template('manager_dashboard.html',
+                         stats=stats,
+                         recent_interviews=recent_interviews,
+                         pending_applications=pending_applications)
+
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True, host='0.0.0.0', port=5000)
+
