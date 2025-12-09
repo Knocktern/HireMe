@@ -18,6 +18,37 @@
                 Join thousands of professionals on HireMe
             </p>
         </div>
+        
+        <form class="mt-8 space-y-6" action="{{ url_for('register') }}" method="POST">
+            
+            <div class="relative">
+                <label for="user_type_select" class="block text-sm font-semibold text-gray-700 mb-2">I am signing up as a:</label>
+                <div class="relative">
+                    <select x-model="userType" 
+                            id="user_type_select"
+                            class="appearance-none block w-full px-4 py-3.5 pl-12 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all cursor-pointer font-medium hover:bg-white">
+                        <option value="candidate">Candidate (Job Seeker)</option>
+                        <option value="employer">Employer (Hiring)</option>
+                        <option value="interviewer">Interviewer</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                    
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="user_type" :value="userType">
+
 
 
 
