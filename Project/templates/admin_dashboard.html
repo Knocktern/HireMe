@@ -48,3 +48,32 @@
         </div>
     </div>
 
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in delay-100"
+             x-data="{ current: 0, target: {{ stats.total_users }} }"
+             x-init="setTimeout(() => { const step = Math.ceil(target / 20) || 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 30); }, 300);">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Users</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
+                </div>
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col gap-1">
+                <div class="w-full bg-gray-100 rounded-full h-1.5 flex overflow-hidden">
+                    <div class="bg-indigo-500 h-full" style="width: {{ (stats.total_candidates / (stats.total_users if stats.total_users > 0 else 1) * 100)|int }}%"></div>
+                    <div class="bg-purple-500 h-full" style="width: {{ (stats.total_employers / (stats.total_users if stats.total_users > 0 else 1) * 100)|int }}%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] font-medium text-gray-400 uppercase mt-1">
+                    <span class="text-indigo-600">{{ stats.total_candidates }} Candidates</span>
+                    <span class="text-purple-600">{{ stats.total_employers }} Employers</span>
+                </div>
+            </div>
+        </div>
+
+
