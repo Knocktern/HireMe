@@ -94,6 +94,24 @@
                 <span>{{ stats.active_jobs }} Active Posts</span>
             </div>
         </div>
+        
+
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-green-100/50 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in delay-200"
+             x-data="{ current: 0, target: {{ stats.total_applications }} }"
+             x-init="setTimeout(() => { const step = Math.ceil(target / 20) || 1; const timer = setInterval(() => { current = Math.min(current + step, target); if(current >= target) clearInterval(timer); }, 30); }, 300);">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Applications</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 mt-2" x-text="current">0</h3>
+                </div>
+                <div class="p-3 bg-green-50 text-green-600 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-gray-500">
+                Total submissions processed
+            </div>
+        </div>
 
 
 
