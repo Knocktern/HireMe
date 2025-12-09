@@ -81,6 +81,21 @@ class JobPosting(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
+class JobApplication(db.Model):
+    __tablename__ = 'job_applications'
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('job_postings.id'), nullable=False)
+    candidate_id = db.Column(db.Integer, db.ForeignKey('candidate_profiles.id'), nullable=False)
+    cover_letter = db.Column(db.Text)
+    application_status = db.Column(db.Enum('applied', 'under_review', 'shortlisted', 'interview_scheduled', 'rejected', 'hired'), default='applied')
+    exam_score = db.Column(db.Numeric(5, 2))
+    applied_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    job = db.relationship('JobPosting')
+    candidate = db.relationship('CandidateProfile')
+
 class InterviewRoom(db.Model):
     __tablename__ = 'interview_rooms'
     id = db.Column(db.Integer, primary_key=True)
@@ -414,3 +429,9 @@ def interviewer_dashboard():
                          upcoming_interviews=upcoming_interviews,
                          completed_interviews=completed_interviews,
                          now=datetime.utcnow())
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True, host='0.0.0.0', port=5000)
