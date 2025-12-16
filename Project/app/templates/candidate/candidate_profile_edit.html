@@ -109,4 +109,42 @@
             </div>
         </div>
 
+        <!-- Resume Upload -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Resume / CV
+                </h2>
+            </div>
+            <div class="p-6">
+                {% if profile.cv_filename %}
+                <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="font-medium text-green-800">{{ profile.cv_filename }}</p>
+                            <p class="text-sm text-green-600">Current resume</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <label class="block">
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-indigo-400 transition cursor-pointer">
+                        <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <p class="text-gray-600 font-medium">Click to upload or drag and drop</p>
+                        <p class="text-sm text-gray-500 mt-1">PDF, DOC, or DOCX (Max 5MB)</p>
+                        <input type="file" name="cv_file" accept=".pdf,.doc,.docx" class="hidden">
+                    </div>
+                </label>
+            </div>
+        </div>
+
+
 
