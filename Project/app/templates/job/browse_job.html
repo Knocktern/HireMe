@@ -178,6 +178,52 @@
                     </div>
                 </div>
                 {% else %}
+                                <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm">
+                    <div class="w-20 h-20 bg-slate-50 rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">No jobs found</h3>
+                    <p class="text-gray-500 mb-6">We couldn't find any jobs matching your criteria. Try different keywords or clear filters.</p>
+                    <a href="{{ url_for('job.browse_jobs') }}" class="px-6 py-2 bg-violet-100 text-violet-700 font-semibold rounded-lg hover:bg-violet-200 transition-colors">Clear Filters</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if jobs.iter_pages is defined and jobs.pages > 1 %}
+            <div class="mt-8 flex justify-center">
+                <nav class="flex items-center space-x-1">
+                    {% if jobs.has_prev %}
+                    <a href="{{ url_for('job.browse_jobs', page=jobs.prev_num, **request.args) }}" class="px-3 py-2 rounded-lg bg-white border border-gray-200 text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </a>
+                    {% endif %}
+                    
+                    {% for page_num in jobs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+                        {% if page_num %}
+                            {% if jobs.page == page_num %}
+                            <span class="px-4 py-2 rounded-lg bg-violet-600 text-white font-bold shadow-md shadow-violet-200">{{ page_num }}</span>
+                            {% else %}
+                            <a href="{{ url_for('job.browse_jobs', page=page_num, **request.args) }}" class="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-medium">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                            <span class="px-2 text-gray-400">...</span>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if jobs.has_next %}
+                    <a href="{{ url_for('job.browse_jobs', page=jobs.next_num, **request.args) }}" class="px-3 py-2 rounded-lg bg-white border border-gray-200 text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Next</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 
 
 
