@@ -94,6 +94,48 @@
                 {% endif %}
             </div>
         </div>
+                <!-- Experience & Compensation -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Experience & Compensation
+                </h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <label for="experience_required" class="block text-sm font-semibold text-gray-700 mb-2">Required Experience (Years)</label>
+                    <input type="number" id="experience_required" name="experience_required"
+                           class="form-input w-full"
+                           placeholder="0" min="0" max="50" value="0">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="salary_min" class="block text-sm font-semibold text-gray-700 mb-2">Minimum Salary (Annual)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                            <input type="number" id="salary_min" name="salary_min"
+                                   class="form-input w-full pl-8"
+                                   placeholder="50000">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="salary_max" class="block text-sm font-semibold text-gray-700 mb-2">Maximum Salary (Annual)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                            <input type="number" id="salary_max" name="salary_max"
+                                   class="form-input w-full pl-8"
+                                   placeholder="80000">
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500">Leave salary fields empty if you prefer not to display compensation</p>
+            </div>
+        </div>
+
 
 
 
