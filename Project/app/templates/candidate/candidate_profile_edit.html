@@ -164,6 +164,38 @@
                 <div class="mb-6">
                     <h3 class="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3">{{ category }}</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                                {% for skill in skills %}
+                        {% set is_selected = skill.id in (candidate_skills|map(attribute=0)|map(attribute='skill_id')|list) %}
+                        <label class="relative cursor-pointer" x-data="{ selected: {{ 'true' if is_selected else 'false' }} }">
+                            <input type="checkbox" name="skills[]" value="{{ skill.id }}" 
+                                   {% if is_selected %}checked{% endif %}
+                                   @change="selected = !selected"
+                                   class="sr-only peer">
+                            <div class="p-3 border-2 rounded-xl peer-checked:border-indigo-600 peer-checked:bg-indigo-50 transition hover:border-gray-300">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-900 text-sm">{{ skill.skill_name }}</span>
+                                    <svg x-show="selected" class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <!-- Proficiency selection (hidden by default, shown when selected) -->
+                            <div x-show="selected" x-transition class="mt-2">
+                                <select name="proficiency_{{ skill.id }}" class="w-full text-sm border border-gray-200 rounded-lg p-2 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate" selected>Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="Expert">Expert</option>
+                                </select>
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
 
 
 
