@@ -225,6 +225,21 @@
     </div>
 </div>
 
+<script>
+function previewLogo(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('logo-preview');
+            preview.innerHTML = `<img src="${e.target.result}" alt="Logo Preview" class="w-full h-full object-cover">`;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}
+
+
 
 
 
