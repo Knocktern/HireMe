@@ -54,3 +54,31 @@
             </form>
         </div>
     </div>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-gray-900">Filters</h3>
+                    <a href="{{ url_for('job.browse_jobs') }}" class="text-xs text-violet-600 hover:text-violet-800 font-medium">Clear All</a>
+                </div>
+                
+                <form method="GET" action="{{ url_for('job.browse_jobs') }}" id="filterForm">
+                    <input type="hidden" name="q" value="{{ request.args.get('q', '') }}">
+                    <input type="hidden" name="location" value="{{ request.args.get('location', '') }}">
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Job Type</label>
+                        <div class="space-y-2">
+                            {% for type in ['Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship'] %}
+                            <label class="flex items-center">
+                                <input type="checkbox" name="job_type" value="{{ type }}" 
+                                       {% if type in request.args.getlist('job_type') %}checked{% endif %}
+                                       onchange="this.form.submit()"
+                                       class="w-4 h-4 text-violet-600 border-gray-300 rounded focus:ring-violet-500">
+                                <span class="ml-2 text-sm text-gray-600">{{ type }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
