@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Company Profile - {{ company.company_name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <nav class="flex mb-4" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li>
+                        <a href="{{ url_for('employer.employer_dashboard') }}" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-home"></i>
+                        </a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+                        <span class="text-gray-700 font-medium">Company Profile</span>
+                    </li>
+                </ol>
+            </nav>
+            <h1 class="text-3xl font-bold text-gray-900">Company Profile</h1>
+            <p class="mt-2 text-gray-600">Manage your company information. A complete profile helps attract better candidates.</p>
+        </div>
+
+         <!-- Profile Completion Card -->
+        {% set completion = 0 %}
+        {% if company.company_name %}{% set completion = completion + 20 %}{% endif %}
+        {% if company.industry %}{% set completion = completion + 15 %}{% endif %}
+        {% if company.company_size %}{% set completion = completion + 15 %}{% endif %}
+        {% if company.location %}{% set completion = completion + 15 %}{% endif %}
+        {% if company.description %}{% set completion = completion + 20 %}{% endif %}
+        {% if company.website %}{% set completion = completion + 15 %}{% endif %}
+        
+        {% if completion < 100 %}
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg p-6 mb-8 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold">Profile Completion: {{ completion }}%</h3>
+                    <p class="text-indigo-100 text-sm mt-1">Complete your profile to attract more qualified candidates</p>
+                </div>
+                <div class="w-24 h-24">
+                    <svg class="transform -rotate-90 w-24 h-24">
+                        <circle cx="48" cy="48" r="40" stroke="rgba(255,255,255,0.3)" stroke-width="8" fill="none"/>
+                        <circle cx="48" cy="48" r="40" stroke="white" stroke-width="8" fill="none"
+                                stroke-dasharray="{{ completion * 2.51 }} 251" stroke-linecap="round"/>
+                    </svg>
+                    <span class="absolute transform -translate-x-12 -translate-y-16 text-2xl font-bold">{{ completion }}%</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Company Profile Form -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <form method="POST" enctype="multipart/form-data" class="divide-y divide-gray-200">
+                                <!-- Company Logo Section -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-image text-indigo-500 mr-2"></i>Company Logo
+                    </h2>
+                    <div class="flex items-center space-x-6">
+                        <div class="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300" id="logo-preview">
+                            {% if company.logo %}
+                            <img src="{{ url_for('employer.company_logo') }}" alt="Company Logo" class="w-full h-full object-cover">
+                            {% else %}
+                            <i class="fas fa-building text-4xl text-gray-400"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1">
+                            <label class="block">
+                                <span class="sr-only">Choose company logo</span>
+                                <input type="file" name="logo" accept="image/*" 
+                                       class="block w-full text-sm text-gray-500
+                                              file:mr-4 file:py-2 file:px-4
+                                              file:rounded-lg file:border-0
+                                              file:text-sm file:font-semibold
+                                              file:bg-indigo-50 file:text-indigo-700
+                                              hover:file:bg-indigo-100
+                                              cursor-pointer"
+                                       onchange="previewLogo(this)">
+                            </label>
+                            <p class="mt-2 text-xs text-gray-500">PNG, JPG, GIF up to 5MB. Recommended size: 200x200px</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Basic Information -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-info-circle text-indigo-500 mr-2"></i>Basic Information
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Company Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="company_name" value="{{ company.company_name or '' }}" required
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                   placeholder="Enter company name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+                            <select name="industry" 
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                                <option value="">Select Industry</option>
+                                {% for industry in industries %}
+                                <option value="{{ industry }}" {% if company.industry == industry %}selected{% endif %}>{{ industry }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Company Size</label>
+                            <select name="company_size" 
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                                <option value="">Select Company Size</option>
+                                <option value="1-10" {% if company.company_size == '1-10' %}selected{% endif %}>1-10 employees</option>
+                                <option value="11-50" {% if company.company_size == '11-50' %}selected{% endif %}>11-50 employees</option>
+                                <option value="51-200" {% if company.company_size == '51-200' %}selected{% endif %}>51-200 employees</option>
+                                <option value="201-500" {% if company.company_size == '201-500' %}selected{% endif %}>201-500 employees</option>
+                                <option value="500+" {% if company.company_size == '500+' %}selected{% endif %}>500+ employees</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                            <input type="text" name="location" value="{{ company.location or '' }}"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                   placeholder="e.g., San Francisco, CA or Remote">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Online Presence -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-globe text-indigo-500 mr-2"></i>Online Presence
+                    </h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-link text-gray-400"></i>
+                            </div>
+                            <input type="url" name="website" value="{{ company.website or '' }}"
+                                   class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                   placeholder="https://www.yourcompany.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Description -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-align-left text-indigo-500 mr-2"></i>About Your Company
+                    </h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+                        <textarea name="description" rows="6"
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                                  placeholder="Tell candidates about your company culture, mission, values, and what makes your company a great place to work...">{{ company.description or '' }}</textarea>
+                        <p class="mt-2 text-xs text-gray-500">Tip: Include information about your company culture, perks, and growth opportunities</p>
+                    </div>
+                </div>
+
+                                <!-- Submit Button -->
+                <div class="px-6 py-4 bg-gray-50 flex items-center justify-between">
+                    <a href="{{ url_for('employer.employer_dashboard') }}" 
+                       class="text-gray-600 hover:text-gray-800 font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                    </a>
+                    <button type="submit" 
+                            class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-200">
+                        <i class="fas fa-save mr-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Preview Card -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-eye text-indigo-500 mr-2"></i>How Candidates See Your Company
+            </h2>
+            <div class="border border-gray-200 rounded-lg p-6">
+                <div class="flex items-start space-x-4">
+                    <div class="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                        {% if company.logo %}
+                        <img src="{{ url_for('employer.company_logo') }}" alt="Company Logo" class="w-full h-full object-cover">
+                        {% else %}
+                        <i class="fas fa-building text-2xl text-gray-400"></i>
+                        {% endif %}
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-900">{{ company.company_name }}</h3>
+                        <div class="flex flex-wrap items-center gap-3 mt-2 text-sm text-gray-500">
+                            {% if company.industry %}
+                            <span><i class="fas fa-industry mr-1"></i>{{ company.industry }}</span>
+                            {% endif %}
+                            {% if company.company_size %}
+                            <span><i class="fas fa-users mr-1"></i>{{ company.company_size }} employees</span>
+                            {% endif %}
+                            {% if company.location %}
+                            <span><i class="fas fa-map-marker-alt mr-1"></i>{{ company.location }}</span>
+                            {% endif %}
+                        </div>
+                        {% if company.website %}
+                        <a href="{{ company.website }}" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm mt-2 inline-block">
+                            <i class="fas fa-external-link-alt mr-1"></i>{{ company.website }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if company.description %}
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <p class="text-gray-600 text-sm leading-relaxed">{{ company.description[:300] }}{% if company.description|length > 300 %}...{% endif %}</p>
+                </div>
+                {% else %}
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <p class="text-gray-400 text-sm italic">No description added yet. Add a description to help candidates learn about your company.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function previewLogo(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('logo-preview');
+            preview.innerHTML = `<img src="${e.target.result}" alt="Logo Preview" class="w-full h-full object-cover">`;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}
+
+
+
+
+
+
+
