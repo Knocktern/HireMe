@@ -23,3 +23,36 @@
             <h1 class="text-3xl font-bold text-gray-900">Company Profile</h1>
             <p class="mt-2 text-gray-600">Manage your company information. A complete profile helps attract better candidates.</p>
         </div>
+
+         <!-- Profile Completion Card -->
+        {% set completion = 0 %}
+        {% if company.company_name %}{% set completion = completion + 20 %}{% endif %}
+        {% if company.industry %}{% set completion = completion + 15 %}{% endif %}
+        {% if company.company_size %}{% set completion = completion + 15 %}{% endif %}
+        {% if company.location %}{% set completion = completion + 15 %}{% endif %}
+        {% if company.description %}{% set completion = completion + 20 %}{% endif %}
+        {% if company.website %}{% set completion = completion + 15 %}{% endif %}
+        
+        {% if completion < 100 %}
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg p-6 mb-8 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold">Profile Completion: {{ completion }}%</h3>
+                    <p class="text-indigo-100 text-sm mt-1">Complete your profile to attract more qualified candidates</p>
+                </div>
+                <div class="w-24 h-24">
+                    <svg class="transform -rotate-90 w-24 h-24">
+                        <circle cx="48" cy="48" r="40" stroke="rgba(255,255,255,0.3)" stroke-width="8" fill="none"/>
+                        <circle cx="48" cy="48" r="40" stroke="white" stroke-width="8" fill="none"
+                                stroke-dasharray="{{ completion * 2.51 }} 251" stroke-linecap="round"/>
+                    </svg>
+                    <span class="absolute transform -translate-x-12 -translate-y-16 text-2xl font-bold">{{ completion }}%</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Company Profile Form -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <form method="POST" enctype="multipart/form-data" class="divide-y divide-gray-200">
+
