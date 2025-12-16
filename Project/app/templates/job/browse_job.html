@@ -108,5 +108,22 @@
                 </form>
             </div>
         </div>
+                <div class="lg:col-span-3">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-900">
+                    {{ jobs.total if jobs.total is defined else (jobs|length) }} <span class="font-normal text-gray-500">Jobs Found</span>
+                </h2>
+                
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Sort by:</span>
+                    <select name="sort" form="filterForm" onchange="this.form.submit()" class="border-none bg-transparent text-sm font-semibold text-gray-900 focus:ring-0 cursor-pointer">
+                        <option value="newest" {% if request.args.get('sort') == 'newest' %}selected{% endif %}>Newest</option>
+                        <option value="salary_high" {% if request.args.get('sort') == 'salary_high' %}selected{% endif %}>Highest Salary</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="space-y-4 animate-fade-in delay-100">
+
 
 
