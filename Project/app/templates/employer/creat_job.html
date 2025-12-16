@@ -27,5 +27,47 @@
                     Job Details
                 </h2>
             </div>
+                        <div class="p-6 space-y-6">
+                <div>
+                    <label for="title" class="block text-sm font-semibold text-gray-700 mb-2">Job Title *</label>
+                    <input type="text" id="title" name="title" required
+                           class="form-input w-full"
+                           placeholder="e.g. Senior Software Engineer">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="job_type" class="block text-sm font-semibold text-gray-700 mb-2">Job Type *</label>
+                        <select id="job_type" name="job_type" required class="form-input w-full">
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="location" class="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+                        <input type="text" id="location" name="location"
+                               class="form-input w-full"
+                               placeholder="e.g. New York, NY or Remote">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">Job Description *</label>
+                    <textarea id="description" name="description" rows="6" required
+                              class="form-input w-full"
+                              placeholder="Describe the role, responsibilities, and what makes this opportunity exciting..."></textarea>
+                </div>
+
+                <div>
+                    <label for="requirements" class="block text-sm font-semibold text-gray-700 mb-2">Requirements</label>
+                    <textarea id="requirements" name="requirements" rows="4"
+                              class="form-input w-full"
+                              placeholder="List the required qualifications, skills, and experience..."></textarea>
+                </div>
+            </div>
+        </div>
+
 
 
