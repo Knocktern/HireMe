@@ -55,4 +55,35 @@
         <!-- Company Profile Form -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
             <form method="POST" enctype="multipart/form-data" class="divide-y divide-gray-200">
+                                <!-- Company Logo Section -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-image text-indigo-500 mr-2"></i>Company Logo
+                    </h2>
+                    <div class="flex items-center space-x-6">
+                        <div class="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300" id="logo-preview">
+                            {% if company.logo %}
+                            <img src="{{ url_for('employer.company_logo') }}" alt="Company Logo" class="w-full h-full object-cover">
+                            {% else %}
+                            <i class="fas fa-building text-4xl text-gray-400"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1">
+                            <label class="block">
+                                <span class="sr-only">Choose company logo</span>
+                                <input type="file" name="logo" accept="image/*" 
+                                       class="block w-full text-sm text-gray-500
+                                              file:mr-4 file:py-2 file:px-4
+                                              file:rounded-lg file:border-0
+                                              file:text-sm file:font-semibold
+                                              file:bg-indigo-50 file:text-indigo-700
+                                              hover:file:bg-indigo-100
+                                              cursor-pointer"
+                                       onchange="previewLogo(this)">
+                            </label>
+                            <p class="mt-2 text-xs text-gray-500">PNG, JPG, GIF up to 5MB. Recommended size: 200x200px</p>
+                        </div>
+                    </div>
+                </div>
+
 
