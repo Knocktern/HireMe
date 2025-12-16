@@ -131,5 +131,38 @@
                     </div>
                 </div>
 
+                                <!-- Online Presence -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-globe text-indigo-500 mr-2"></i>Online Presence
+                    </h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-link text-gray-400"></i>
+                            </div>
+                            <input type="url" name="website" value="{{ company.website or '' }}"
+                                   class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                   placeholder="https://www.yourcompany.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Description -->
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-align-left text-indigo-500 mr-2"></i>About Your Company
+                    </h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+                        <textarea name="description" rows="6"
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                                  placeholder="Tell candidates about your company culture, mission, values, and what makes your company a great place to work...">{{ company.description or '' }}</textarea>
+                        <p class="mt-2 text-xs text-gray-500">Tip: Include information about your company culture, perks, and growth opportunities</p>
+                    </div>
+                </div>
+
+
 
 
