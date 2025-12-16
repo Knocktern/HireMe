@@ -127,5 +127,40 @@
                     {% endif %}
                 </div>
 
+                <!-- Certifications -->
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Certifications</h2>
+                        <a href="{{ url_for('interviewer.certifications') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">Manage</a>
+                    </div>
+                    {% if certifications %}
+                    <div class="space-y-3">
+                        {% for cert in certifications %}
+                        <div class="flex items-start p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-shrink-0">
+                                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <h3 class="font-medium text-gray-900">{{ cert.certification_name }}</h3>
+                                <p class="text-sm text-gray-500">{{ cert.issuing_organization }}</p>
+                                <p class="text-sm text-gray-400">
+                                    Issued {{ cert.issue_date.strftime('%B %Y') }}
+                                    {% if cert.expiry_date %} • Expires {{ cert.expiry_date.strftime('%B %Y') }}{% endif %}
+                                </p>
+                            </div>
+                            {% if cert.is_verified %}
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Verified</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-400 italic">No certifications added yet. <a href="{{ url_for('interviewer.certifications') }}" class="text-indigo-600 hover:underline">Add certifications</a></p>
+                    {% endif %}
+                </div>
+
+
 
 
