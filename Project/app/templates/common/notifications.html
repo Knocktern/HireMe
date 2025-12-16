@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications - HireMe{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Notifications</h1>
+            <p class="mt-1 text-gray-600">{{ unread_notification_count }} unread notification{{ 's' if unread_notification_count != 1 else '' }}</p>
+        </div>
+        {% if notifications.items %}
+        <form method="POST" action="{{ url_for('notification.mark_all_notifications_read') }}">
+            <button type="submit" class="px-4 py-2 text-indigo-600 font-medium hover:bg-indigo-50 rounded-xl transition">
+                Mark all as read
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+    <!-- Filters -->
+    <div class="flex items-center space-x-4">
+        <a href="{{ url_for('notification.notifications') }}" 
+            class="px-4 py-2 rounded-xl font-medium transition
+                {% if not request.args.get('filter') %}bg-indigo-100 text-indigo-700{% else %}text-gray-600 hover:bg-gray-100{% endif %}">
+            All
+        </a>
+        <a href="{{ url_for('notification.notifications', filter='unread') }}"
+            class="px-4 py-2 rounded-xl font-medium transition
+                {% if request.args.get('filter') == 'unread' %}bg-indigo-100 text-indigo-700{% else %}text-gray-600 hover:bg-gray-100{% endif %}">
+            Unread
+        </a>
+        <a href="{{ url_for('notification.notifications', type='application') }}"
+            class="px-4 py-2 rounded-xl font-medium transition
+                {% if request.args.get('type') == 'application' %}bg-indigo-100 text-indigo-700{% else %}text-gray-600 hover:bg-gray-100{% endif %}">
+            Applications
+        </a>
+        <a href="{{ url_for('notification.notifications', type='message') }}"
+            class="px-4 py-2 rounded-xl font-medium transition
+                {% if request.args.get('type') == 'message' %}bg-indigo-100 text-indigo-700{% else %}text-gray-600 hover:bg-gray-100{% endif %}">
+            Messages
+        </a>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        {% if notifications.items %}
+        <div class="divide-y divide-gray-100">
+            {% for notification in notifications.items %}
+            <div class="p-6 hover:bg-gray-50 transition {% if not notification.is_read %}bg-indigo-50/30{% endif %}">
+                <div class="flex items-start space-x-4">
+                    <!-- Icon -->
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
+                        {% if notification.notification_type == 'application' %}bg-blue-100
+                        {% elif notification.notification_type == 'message' %}bg-green-100
+                        {% elif notification.notification_type == 'job_match' %}bg-yellow-100
+                        {% elif notification.notification_type == 'exam' %}bg-orange-100
+                        {% else %}bg-gray-100{% endif %}">
+                        {% if notification.notification_type == 'application' %}
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        {% elif notification.notification_type == 'message' %}
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        {% elif notification.notification_type == 'job_match' %}
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                        {% elif notification.notification_type == 'exam' %}
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        {% else %}
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content -->
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="font-semibold text-gray-900 {% if not notification.is_read %}text-indigo-900{% endif %}">
+                                    {{ notification.title }}
+                                </h3>
+                                <p class="text-gray-600 mt-1">{{ notification.message }}</p>
+                            </div>
+                            {% if not notification.is_read %}
+                            <span class="w-2 h-2 bg-indigo-600 rounded-full flex-shrink-0 mt-2"></span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mt-3 flex items-center space-x-4">
+                            <span class="text-sm text-gray-500">
+                                {{ notification.created_at.strftime('%b %d, %Y at %I:%M %p') if notification.created_at else '' }}
+                            </span>
+                            {% if notification.action_url %}
+                            <a href="{{ notification.action_url }}" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+                                View Details →
+                            </a>
+                            {% endif %}
+                            {% if not notification.is_read %}
+                            <a href="{{ url_for('notification.mark_notification_read', notification_id=notification.id) }}" class="text-sm text-gray-500 hover:text-gray-700">
+                                Mark as read
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if notifications.pages > 1 %}
+        <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+            <p class="text-sm text-gray-600">
+                Showing {{ ((notifications.page - 1) * notifications.per_page) + 1 }} to {{ [notifications.page * notifications.per_page, notifications.total]|min }} of {{ notifications.total }} notifications
+            </p>
+            <div class="flex items-center space-x-2">
+                {% if notifications.has_prev %}
+                <a href="{{ url_for('notification.notifications', page=notifications.page - 1, filter=request.args.get('filter', '')) }}" 
+                    class="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
+                    Previous
+                </a>
+                {% endif %}
+                {% for page_num in range(1, notifications.pages + 1) %}
+                {% if page_num == notifications.page %}
+                <span class="px-3 py-1 bg-indigo-600 text-white rounded-lg text-sm">{{ page_num }}</span>
+                {% elif page_num == 1 or page_num == notifications.pages or (page_num >= notifications.page - 1 and page_num <= notifications.page + 1) %}
+                <a href="{{ url_for('notification.notifications', page=page_num, filter=request.args.get('filter', '')) }}"
+                    class="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
+                    {{ page_num }}
+                </a>
+                {% elif page_num == 2 or page_num == notifications.pages - 1 %}
+                <span class="text-gray-400">...</span>
+                {% endif %}
+                {% endfor %}
+                {% if notifications.has_next %}
+                <a href="{{ url_for('notification.notifications', page=notifications.page + 1, filter=request.args.get('filter', '')) }}"
+                    class="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
+                    Next
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Empty State -->
+        <div class="p-12 text-center">
+            <div class="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No notifications</h3>
+            <p class="text-gray-600">
+                {% if request.args.get('filter') %}
+                No notifications match this filter
+                {% else %}
+                You're all caught up! New notifications will appear here.
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
