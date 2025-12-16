@@ -230,6 +230,70 @@
                     </div>
                 </div>
 
+                <!-- Profile Links -->
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Profile Links</h3>
+                    <div class="space-y-3">
+                        {% if profile.linkedin_url %}
+                        <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener" 
+                           class="flex items-center text-gray-600 hover:text-indigo-600 transition">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            LinkedIn Profile
+                        </a>
+                        {% else %}
+                        <p class="text-sm text-gray-400">No LinkedIn added</p>
+                        {% endif %}
+                        
+                        {% if profile.cv_file_path %}
+                        <a href="{{ url_for('interviewer.download_cv', profile_id=profile.id) }}" 
+                           class="flex items-center text-gray-600 hover:text-indigo-600 transition">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Download CV
+                        </a>
+                        {% else %}
+                        <p class="text-sm text-gray-400">No CV uploaded</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Availability Summary -->
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Availability</h3>
+                        <a href="{{ url_for('interviewer.availability') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">Edit</a>
+                    </div>
+                    {% if availability %}
+                    <div class="space-y-2 text-sm">
+                        {% set days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+                        {% for day_index in range(7) %}
+                        {% set day_slots = availability|selectattr('day_of_week', 'equalto', day_index)|list %}
+                        {% if day_slots %}
+                        <div class="flex justify-between items-center py-1">
+                            <span class="font-medium text-gray-700">{{ days[day_index] }}</span>
+                            <span class="text-gray-500">
+                                {% for slot in day_slots %}
+                                {{ slot.start_time.strftime('%H:%M') }}-{{ slot.end_time.strftime('%H:%M') }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-400 italic text-sm">No availability set. <a href="{{ url_for('interviewer.availability') }}" class="text-indigo-600 hover:underline">Set your availability</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
 
 
 
