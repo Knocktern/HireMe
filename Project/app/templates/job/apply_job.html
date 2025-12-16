@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply for {{ job.title }} - {{ company.company_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <!-- Header -->
+    <div>
+        <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+            <a href="{{ url_for('job.browse_jobs') }}" class="hover:text-indigo-600">Jobs</a>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            <a href="{{ url_for('job.job_details', job_id=job.id) }}" class="hover:text-indigo-600">{{ job.title }}</a>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            <span class="text-gray-900 font-medium">Apply</span>
+        </nav>
+        <h1 class="text-3xl font-bold text-gray-900">Apply for Position</h1>
+        <p class="mt-1 text-gray-600">{{ job.title }} at {{ company.company_name }}</p>
+    </div>
+
+    <!-- Job Summary Card -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 text-white">
+        <div class="flex items-start space-x-4">
+            <div class="w-14 h-14 bg-white/10 backdrop-blur rounded-xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                {{ company.company_name[0] }}
+            </div>
+            <div>
+                <h2 class="text-xl font-bold">{{ job.title }}</h2>
+                <div class="text-indigo-100">{{ company.company_name }}</div>
+                <div class="flex flex-wrap gap-4 mt-3 text-sm text-indigo-100">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        </svg>
+                        {{ job.location or 'Remote' }}
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        {{ job.job_type|replace('_', ' ')|title }}
+                    </span>
+                    {% if job.salary_min or job.salary_max %}
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        {% if job.salary_min and job.salary_max %}
+                            ${{ "{:,.0f}".format(job.salary_min) }} - ${{ "{:,.0f}".format(job.salary_max) }}
+                        {% elif job.salary_min %}
+                            From ${{ "{:,.0f}".format(job.salary_min) }}
+                        {% else %}
+                            Up to ${{ "{:,.0f}".format(job.salary_max) }}
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill Match (if available) -->
+    {% if match_result %}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Your Skill Match</h3>
+            <div class="text-2xl font-bold {% if match_result.score >= 80 %}text-green-600{% elif match_result.score >= 60 %}text-yellow-600{% else %}text-gray-600{% endif %}">
+                {{ match_result.score }}%
+            </div>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+            <div class="h-2 rounded-full {% if match_result.score >= 80 %}bg-green-500{% elif match_result.score >= 60 %}bg-yellow-500{% else %}bg-gray-500{% endif %}" 
+                style="width: {{ match_result.score }}%"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="text-sm text-gray-500 mb-2">Matching Skills</div>
+                <div class="flex flex-wrap gap-1">
+                    {% for skill in match_result.matching_skills[:5] %}
+                    <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">{{ skill.skill_name }}</span>
+                    {% else %}
+                    <span class="text-gray-400 text-sm">None</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-500 mb-2">Missing Skills</div>
+                <div class="flex flex-wrap gap-1">
+                    {% for skill in match_result.missing_skills[:5] %}
+                    <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">{{ skill.skill_name }}</span>
+                    {% else %}
+                    <span class="text-green-600 text-sm">All matched!</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Application Form -->
+    <form method="POST" action="{{ url_for('job.apply_job', job_id=job.id) }}" enctype="multipart/form-data" class="space-y-6">
+        <!-- Profile Summary -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h3 class="font-semibold text-gray-900">Your Profile</h3>
+            </div>
+            <div class="p-6">
+                <div class="flex items-start space-x-4">
+                    <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                        {{ user.first_name[0] }}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-900">{{ user.first_name }} {{ user.last_name }}</h4>
+                        <p class="text-gray-600">{{ profile.current_position or 'No position specified' }}</p>
+                        <div class="flex flex-wrap gap-4 mt-2 text-sm text-gray-500">
+                            <span>{{ user.email }}</span>
+                            {% if profile.experience_years %}
+                            <span>{{ profile.experience_years }} years exp.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="{{ url_for('candidate.candidate_profile') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+                        Edit Profile
+                    </a>
+                </div>
+
+                {% if candidate_skills %}
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <div class="text-sm text-gray-500 mb-2">Your Skills</div>
+                    <div class="flex flex-wrap gap-2">
+                        {% for cs, skill in candidate_skills[:8] %}
+                        <span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-medium">
+                            {{ skill.skill_name }}
+                        </span>
+                        {% endfor %}
+                        {% if candidate_skills|length > 8 %}
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm">
+                            +{{ candidate_skills|length - 8 }} more
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Cover Letter -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h3 class="font-semibold text-gray-900">Cover Letter</h3>
+            </div>
+            <div class="p-6">
+                <textarea name="cover_letter" rows="8" class="form-input w-full" 
+                    placeholder="Tell the employer why you're the perfect fit for this role...
+
+• What attracted you to this position?
+• How does your experience align with the job requirements?
+• What unique value can you bring to the team?"></textarea>
+                <p class="mt-2 text-sm text-gray-500">A personalized cover letter significantly increases your chances of getting noticed.</p>
+            </div>
+        </div>
+
+        <!-- Resume -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h3 class="font-semibold text-gray-900">Resume / CV</h3>
+            </div>
+            <div class="p-6">
+                {% if profile.cv_content and profile.cv_filename %}
+                <div class="flex items-center justify-between p-4 bg-green-50 rounded-xl mb-4">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <div class="font-medium text-gray-900">Resume on file: {{ profile.cv_filename }}</div>
+                            <div class="text-sm text-gray-600">Your existing resume will be used</div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('candidate.candidate_profile') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+                        Update
+                    </a>
+                </div>
+                {% else %}
+                <div class="flex items-center justify-between p-4 bg-yellow-50 rounded-xl mb-4">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-yellow-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <div>
+                            <div class="font-medium text-gray-900">No resume uploaded</div>
+                            <div class="text-sm text-gray-600">Consider uploading one to your profile</div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('candidate.candidate_profile') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+                        Upload
+                    </a>
+                </div>
+                {% endif %}
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Upload Different Resume (Optional)</label>
+                    <div class="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-indigo-300 transition">
+                        <svg class="w-10 h-10 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <input type="file" name="resume" accept=".pdf,.doc,.docx" class="hidden" id="resume-upload">
+                        <label for="resume-upload" class="cursor-pointer">
+                            <span class="text-indigo-600 font-medium hover:text-indigo-700">Click to upload</span>
+                            <span class="text-gray-500"> or drag and drop</span>
+                        </label>
+                        <p class="text-xs text-gray-400 mt-2">PDF, DOC, DOCX up to 5MB</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Questions (if any) -->
+        {% if job.screening_questions %}
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h3 class="font-semibold text-gray-900">Additional Questions</h3>
+            </div>
+            <div class="p-6 space-y-6">
+                {% for question in job.screening_questions %}
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        {{ question.question }}
+                        {% if question.required %}<span class="text-red-500">*</span>{% endif %}
+                    </label>
+                    <textarea name="question_{{ question.id }}" rows="3" class="form-input w-full" 
+                        {% if question.required %}required{% endif %}></textarea>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Exam Notice -->
+        {% if job.has_exam %}
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
+            <div class="flex items-start">
+                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h4 class="font-semibold text-gray-900">Screening Exam Required</h4>
+                    <p class="text-gray-600 mt-1">
+                        After submitting your application, you'll be invited to complete a screening exam. 
+                        Make sure you have time to complete it without interruptions.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Submit -->
+        <div class="flex items-center justify-between pt-4">
+            <a href="{{ url_for('job.job_details', job_id=job.id) }}" class="text-gray-600 hover:text-gray-900 font-medium">
+                Cancel
+            </a>
+            <button type="submit" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:opacity-90 transition shadow-lg">
+                Submit Application
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
