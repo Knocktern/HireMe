@@ -102,4 +102,30 @@
                     {% endif %}
                 </div>
 
+                <!-- Skills -->
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Technical Skills</h2>
+                        <a href="{{ url_for('interviewer.edit_profile') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">Edit</a>
+                    </div>
+                    {% if profile.skills %}
+                    <div class="flex flex-wrap gap-2">
+                        {% for skill in profile.skills %}
+                        <div class="flex items-center px-3 py-2 bg-indigo-50 text-indigo-700 rounded-lg">
+                            <span class="font-medium">{{ skill.skill.skill_name if skill.skill else 'Unknown' }}</span>
+                            {% if skill.proficiency_level %}
+                            <span class="ml-2 px-2 py-0.5 bg-indigo-200 text-indigo-800 text-xs rounded-full">{{ skill.proficiency_level }}</span>
+                            {% endif %}
+                            {% if skill.years_experience %}
+                            <span class="ml-1 text-xs text-indigo-500">{{ skill.years_experience }}y</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-400 italic">No skills added yet. <a href="{{ url_for('interviewer.edit_profile') }}" class="text-indigo-600 hover:underline">Add skills</a></p>
+                    {% endif %}
+                </div>
+
+
 
