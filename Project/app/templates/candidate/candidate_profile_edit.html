@@ -18,3 +18,41 @@
     </div>
 
     <form method="POST" action="{{ url_for('candidate.candidate_profile') }}" enctype="multipart/form-data" class="space-y-8">
+                <!-- Personal Information -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    Personal Information
+                </h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="first_name" class="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required
+                               class="form-input w-full">
+                    </div>
+                    <div>
+                        <label for="last_name" class="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required
+                               class="form-input w-full">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" value="{{ user.phone or '' }}"
+                               class="form-input w-full" placeholder="+1 (555) 000-0000">
+                    </div>
+                    <div>
+                        <label for="location" class="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+                        <input type="text" id="location" name="location" value="{{ profile.location or '' }}"
+                               class="form-input w-full" placeholder="New York, NY">
+                    </div>
+                </div>
+            </div>
+        </div>
+
