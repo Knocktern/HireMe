@@ -92,4 +92,14 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Main Content -->
             <div class="lg:col-span-2 space-y-6">
+                <!-- About -->
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">About</h2>
+                    {% if profile.bio %}
+                    <p class="text-gray-600 whitespace-pre-line">{{ profile.bio }}</p>
+                    {% else %}
+                    <p class="text-gray-400 italic">No bio added yet. <a href="{{ url_for('interviewer.edit_profile') }}" class="text-indigo-600 hover:underline">Add one now</a></p>
+                    {% endif %}
+                </div>
+
 
